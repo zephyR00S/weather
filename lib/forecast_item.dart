@@ -1,38 +1,43 @@
 import 'package:flutter/material.dart';
 
 class ForecastItem extends StatelessWidget {
-  const ForecastItem({super.key});
+  final String time;
+  final String temp;
+  final IconData icon;
+
+  const ForecastItem(
+      {super.key, required this.time, required this.temp, required this.icon});
 
   @override
-  Widget build(BuildContext) {
-    return const Card(
-      shape: RoundedRectangleBorder(
+  Widget build(BuildContext context) {
+    return Card(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(15))),
       elevation: 8,
       child: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             Text(
-              '0300',
-              style: TextStyle(
+              time,
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Icon(
-              Icons.cloud,
+              icon,
               size: 30,
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Text(
-              '0300',
-              style: TextStyle(
+              temp,
+              style: const TextStyle(
                 fontSize: 10,
               ),
             ),

@@ -1,11 +1,52 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:weather/forecast_item.dart';
 import 'package:weather/additional_info.dart';
+import 'package:http/http.dart' as http;
 
-class WeatherScreen extends StatelessWidget {
+class WeatherScreen extends StatefulWidget {
   const WeatherScreen({super.key});
+
+  @override
+  State<WeatherScreen> createState() => _WeatherScreenState();
+}
+
+class _WeatherScreenState extends State<WeatherScreen> {
+  double temp = 0;
+  @override
+  void initState() {
+    super.initState();
+    getWeather();
+  }
+
+//url is a subtyoe of uri - bigger set and url is susbset
+  Future getWeather() async {
+    // String cityName = 'London';
+
+    try {
+      final res = await http.get(
+        Uri.parse(
+            'https://pro.openweathermap.org/data/2.5/forecast/hourly?lat={20.5937}&lon={78.9629}&appid={1e7f75aedd5ec69a5b6e264e8c26c8c5}'),
+      );
+// we decode the res.body as it is in a string format
+      final data = (res.body);
+      // we have the data and put checking conditions
+      // we can convert it to int by using int.parse and then check
+      if (data['cod'] != '200') {
+        throw 'An unexpected error occurred';
+      }
+
+//initially the value is 0 then it is retrieving the value in the mean time we will show 0 in the text and then we finally get the value of temp
+// which we have assigned and we call set state to rebuild the build function and that we get the value of temp
+      setState(() {
+        temp = data['list'][0]['main']['temp'];
+      });
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,26 +79,26 @@ class WeatherScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                      child: const Padding(
-                        padding: EdgeInsets.all(10.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
                         child: Column(
                           children: [
                             Text(
-                              '300° F',
-                              style: TextStyle(
+                              '$temp k',
+                              style: const TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Icon(
+                            const Icon(
                               Icons.cloud,
                               size: 40,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
-                            Text(
+                            const Text(
                               'rain',
                               style: TextStyle(fontSize: 15),
                             )
@@ -82,15 +123,45 @@ class WeatherScreen extends StatelessWidget {
               ),
               //weather cards
 
-              SingleChildScrollView(
+              const SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    Container(width: 100, child: const ForecastItem()),
-                    Container(width: 100, child: const ForecastItem()),
-                    Container(width: 100, child: const ForecastItem()),
-                    Container(width: 100, child: const ForecastItem()),
-                    Container(width: 100, child: const ForecastItem()),
+                    SizedBox(
+                        width: 100,
+                        child: ForecastItem(
+                          time: '12:00',
+                          icon: Icons.cloud,
+                          temp: '301.22',
+                        )),
+                    SizedBox(
+                        width: 100,
+                        child: ForecastItem(
+                          time: '12:00',
+                          icon: Icons.water_drop,
+                          temp: '301.22',
+                        )),
+                    SizedBox(
+                        width: 100,
+                        child: ForecastItem(
+                          time: '12:00',
+                          icon: Icons.light_mode,
+                          temp: '301.22',
+                        )),
+                    SizedBox(
+                        width: 100,
+                        child: ForecastItem(
+                          time: '12:00',
+                          icon: Icons.air,
+                          temp: '301.22',
+                        )),
+                    SizedBox(
+                        width: 100,
+                        child: ForecastItem(
+                          time: '12:00',
+                          icon: Icons.water_drop,
+                          temp: '301.22',
+                        )),
                   ],
                 ),
               ),
