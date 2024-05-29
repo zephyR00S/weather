@@ -1,5 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:weather/forecast_item.dart';
+import 'package:weather/additional_info.dart';
 
 class WeatherScreen extends StatelessWidget {
   const WeatherScreen({super.key});
@@ -17,120 +20,120 @@ class WeatherScreen extends StatelessWidget {
           IconButton(onPressed: () {}, icon: const Icon(Icons.refresh_sharp))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //main card
-            SizedBox(
-              width: double.infinity,
-              child: Card(
-                elevation: 20,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0)),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                    child: const Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            '300° F',
-                            style: TextStyle(
-                                fontSize: 32, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Icon(
-                            Icons.cloud,
-                            size: 50,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            'rain',
-                            style: TextStyle(fontSize: 20),
-                          )
-                        ],
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //main card
+              SizedBox(
+                width: double.infinity,
+                child: Card(
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              '300° F',
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Icon(
+                              Icons.cloud,
+                              size: 40,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              'rain',
+                              style: TextStyle(fontSize: 15),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Text(
-              'Weather Forecast',
-              style: TextStyle(
-                fontSize: 16,
+              const SizedBox(
+                height: 20,
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            //weather cards
+              const Text(
+                'Weather Forecast',
+                style: TextStyle(
+                  fontSize: 12,
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              //weather cards
 
-            const Row(
-              children: [
-                SizedBox(
-                  width: 100,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    elevation: 8,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            '0300',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Icon(
-                            Icons.cloud,
-                            size: 32,
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text(
-                            '0300',
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    Container(width: 100, child: const ForecastItem()),
+                    Container(width: 100, child: const ForecastItem()),
+                    Container(width: 100, child: const ForecastItem()),
+                    Container(width: 100, child: const ForecastItem()),
+                    Container(width: 100, child: const ForecastItem()),
+                  ],
+                ),
+              ),
+
+              const SizedBox(
+                height: 20,
+              ),
+
+              const Text(
+                'Details',
+                style: TextStyle(
+                  fontSize: 12,
+                ),
+              ),
+
+              const SizedBox(
+                height: 15,
+              ),
+
+              //additional info
+
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  AdditionalInfo(
+                    icon: Icons.water_drop,
+                    label: 'Humidity',
+                    value: '8.8%',
                   ),
-                )
-              ],
-            ),
-
-            const Placeholder(
-              fallbackHeight: 150,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            //additional info
-            const Placeholder(
-              fallbackHeight: 150,
-            ),
-          ],
+                  AdditionalInfo(
+                    icon: Icons.air,
+                    label: 'Wind Speed',
+                    value: '7.5',
+                  ),
+                  AdditionalInfo(
+                    icon: Icons.beach_access,
+                    label: 'Pressure',
+                    value: '850',
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
