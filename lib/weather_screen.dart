@@ -77,6 +77,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
           final currentPressure = data['days'][0]['pressure'];
           final currentWindSpeed = data['days'][0]['windspeed'];
           final currentHumidity = data['days'][0]['humidity'];
+          final dayIcon = data['days'][0]['icon'];
 
           return Padding(
             padding: const EdgeInsets.all(16.0),
@@ -109,9 +110,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              const Icon(
-                                Icons.cloud,
-                                size: 40,
+                              Icon(
+                                _getWeatherIcon(dayIcon),
+                                size: 60,
                               ),
                               const SizedBox(
                                 height: 5,
@@ -241,7 +242,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
       case 'clear-day':
         return Icons.wb_sunny;
       case 'partly-cloudy-day':
-        return Icons.wb_cloudy;
+        return Icons.foggy;
       case 'cloudy':
         return Icons.cloud;
       case 'rain':
